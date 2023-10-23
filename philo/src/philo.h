@@ -79,7 +79,7 @@ void	p_args_to_int(t_data *philo, int ac, char **av);
 int		p_loop(t_data *data, t_philo *philo, int fork1, int fork2);
 void	eat_fork(t_data *data, t_philo *philo);
 int		is_full(t_data *data);
-int		is_dead(t_data *data, int i, int *die);
+int		is_dead(t_data *data, int i);
 void	up_usleep(t_philo *philo, long long time);
 
 #endif
