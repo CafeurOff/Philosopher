@@ -85,7 +85,7 @@ int	is_full(t_data *data)
 **	Check if a philo is dead
 */
 
-int	is_dead(t_data *data, int i, int *die)
+int	is_dead(t_data *data, int i)
 {
 	int	k;
 	int	eat;
@@ -104,7 +104,6 @@ int	is_dead(t_data *data, int i, int *die)
 			pthread_mutex_unlock(&data->forks[k++]);
 		if (!eat)
 			print_p(data, PURPLE, &data->philo[i], "died\n");
-		*die = 1;
 		return (-1);
 	}
 	return (0);
