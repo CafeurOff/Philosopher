@@ -22,21 +22,17 @@ void	*death_routine(void *args)
 {
 	t_data	*data;
 	int		i;
-	int		die;
 
 	data = (t_data *)args;
 	while (1)
 	{
 		i = 0;
-		die = 0;
 		while (i < data->nb_philo)
 		{
-			if (is_dead(data, i, &die) == -1)
+			if (is_dead(data, i) == -1)
 				break ;
 			i++;
 		}
-		if (die)
-			break ;
 	}
 	pthread_exit(NULL);
 	return (NULL);
