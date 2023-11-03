@@ -6,7 +6,7 @@
 /*   By: lduthill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 00:06:44 by lduthill          #+#    #+#             */
-/*   Updated: 2023/10/18 00:48:45 by lduthill         ###   ########.fr       */
+/*   Updated: 2023/11/03 23:22:07 by lduthill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,9 @@ void	p_init_p(t_data *data)
 void	p_init_philo(t_data *data, t_philo *philo, int id)
 {
 	philo->id = id;
-	philo->forks = 0;
 	philo->is_dead = 0;
 	philo->nb_eat = 0;
 	philo->last_eat = 0;
-	philo->culpable = 0;
 	philo->data = data;
 }
 
@@ -88,6 +86,7 @@ void	init_forks(t_data *data)
 		pthread_mutex_init(&forks[i], NULL);
 		i++;
 	}
+	pthread_mutex_init(&data->dead, NULL);
 	data->forks = forks;
 }
 

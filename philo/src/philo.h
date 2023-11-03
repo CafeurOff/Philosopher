@@ -6,7 +6,7 @@
 /*   By: lduthill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 16:24:58 by lduthill          #+#    #+#             */
-/*   Updated: 2023/10/19 14:22:02 by lduthill         ###   ########.fr       */
+/*   Updated: 2023/11/03 23:07:29 by lduthill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,7 @@
 typedef struct s_philo
 {
 	int					id;
-	int					forks;
 	int					is_dead;
-	int					culpable;
 	int					nb_eat;
 	long long			last_eat;
 	struct s_data		*data;
@@ -52,13 +50,14 @@ typedef struct s_data
 	t_philo				*philo;
 	pthread_mutex_t		*forks;
 	pthread_mutex_t		*print;
+	pthread_mutex_t		dead;
 }		t_data;
 
 /* Main */
 void		*death_routine(void *args);
 void		*philo_routine(void *args);
 void		init_pm(t_data *data, pthread_mutex_t *print);
-
+void		up_usleep(t_philo *philo, long long time);
 /* Init*/
 void		p_init(t_data *philo);
 void		p_init_p(t_data *data);
@@ -79,7 +78,7 @@ void		p_args_to_int(t_data *philo, int ac, char **av);
 int			p_loop(t_data *data, t_philo *philo, int fork1, int fork2);
 void		eat_fork(t_data *data, t_philo *philo);
 int			is_full(t_data *data);
-int			is_dead(t_data *data, int i, int *die);
-void		up_usleep(t_philo *philo, long long time);
+int			is_dead(t_data *data, int i);
+int		philo_is_dead(t_philo *philo, int i, int fork1, int fork2);
 
 #endif

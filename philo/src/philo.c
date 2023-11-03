@@ -6,7 +6,7 @@
 /*   By: lduthill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 22:20:13 by lduthill          #+#    #+#             */
-/*   Updated: 2023/10/30 17:07:21 by lduthill         ###   ########.fr       */
+/*   Updated: 2023/11/03 23:16:54 by lduthill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,32 +22,49 @@
 
 int	p_loop(t_data *data, t_philo *philo, int fork1, int fork2)
 {
-	if (philo->is_dead)
+	if (philo_is_dead(philo, 0, 0, 0))
 		return (-1);
 	pthread_mutex_lock(&data->forks[fork1]);
-	if (philo->is_dead)
+	if (philo_is_dead(philo, 1, fork1, 0))
 		return (-1);
 	print_p(data, RED, philo, "has taken a fork\n");
 	pthread_mutex_lock(&data->forks[fork2]);
-	if (philo->is_dead)
+	if (philo_is_dead(philo, 2, fork1, fork2))
 		return (-1);
 	philo->last_eat = get_time2(*data);
 	eat_fork(data, philo);
 	up_usleep(philo, data->time_to_eat);
 	philo->nb_eat++;
-	if (philo->is_dead)
+	if (philo_is_dead(philo, 2, fork1, fork2))
 		return (-1);
 	pthread_mutex_unlock(&data->forks[fork1]);
 	pthread_mutex_unlock(&data->forks[fork2]);
-	if (philo->is_dead)
+	if (philo_is_dead(philo, 0, 0, 0))
 		return (-1);
 	print_p(data, BLUE, philo, "is sleeping\n");
 	up_usleep(philo, data->time_to_sleep);
-	if (philo->is_dead)
+	if (philo_is_dead(philo, 0, 0, 0))
 		return (-1);
 	print_p(data, GREEN, philo, "is thinking\n");
 	return (0);
 }
+
+int		philo_is_dead(t_philo *philo, int i, int fork1, int fork2)
+{
+	pthread_mutex_lock(&philo->data->dead);
+	if (philo->is_dead)
+	{
+		if (i >= 1)
+			pthread_mutex_unlock(&philo->data->forks[fork1]);
+		if (i == 2)
+			pthread_mutex_unlock(&philo->data->forks[fork2]);
+		pthread_mutex_unlock(&philo->data->dead);
+		return (1);
+	}
+	pthread_mutex_unlock(&philo->data->dead);
+	return (0);
+}
+
 
 /*
 **	Just print philo take a fork and eat norms :(
@@ -87,44 +104,30 @@ int	is_full(t_data *data)
 **	Check if a philo is dead
 */
 
-int	is_dead(t_data *data, int i, int *die)
+int	is_dead(t_data *data, int i)
 {
+	int	j;
 	int	k;
 	int	eat;
 	int	time_die;
 
+	k = 0;
 	eat = is_full(data);
 	time_die = get_time2(*data) - data->philo[i].last_eat;
 	if (eat || time_die > data->time_to_die)
 	{
-		k = 0;
-		while (k < data->nb_philo)
-			data->philo[k++].is_dead = 1;
-		data->philo[i].culpable = 1;
-		k = 0;
-		while (k < data->nb_philo)
-			pthread_mutex_unlock(&data->forks[k++]);
-		if (!eat)
+		j = 0;
+		if (eat <= 0 && k == 0)
+		{
+			k = 1;
 			print_p(data, PURPLE, &data->philo[i], "died\n");
-		*die = 1;
+		}
+		pthread_mutex_lock(&data->dead);
+		while (j < data->nb_philo)
+			data->philo[j++].is_dead = 1;
+		pthread_mutex_unlock(&data->dead);
+		j = 0;
 		return (-1);
 	}
 	return (0);
-}
-
-/*
-**	Here i have recoded usleep for get a large usleep
-*/
-
-void	up_usleep(t_philo *philo, long long time)
-{
-	long long	start;
-
-	start = get_time();
-	while (get_time() < start + time)
-	{
-		if (philo->is_dead)
-			break ;
-		usleep(500);
-	}
 }
