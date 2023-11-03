@@ -6,7 +6,7 @@
 /*   By: lduthill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 22:20:13 by lduthill          #+#    #+#             */
-/*   Updated: 2023/10/18 00:11:44 by lduthill         ###   ########.fr       */
+/*   Updated: 2023/10/30 17:07:21 by lduthill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ int	p_loop(t_data *data, t_philo *philo, int fork1, int fork2)
 
 void	eat_fork(t_data *data, t_philo *philo)
 {
+	if (philo->nb_eat == data->nb_eat)
+		return ;
 	print_p(data, RED, philo, "has taken a fork\n");
 	print_p(data, YELLOW, philo, "is eating\n");
 }
@@ -85,7 +87,7 @@ int	is_full(t_data *data)
 **	Check if a philo is dead
 */
 
-int	is_dead(t_data *data, int i)
+int	is_dead(t_data *data, int i, int *die)
 {
 	int	k;
 	int	eat;
@@ -104,6 +106,7 @@ int	is_dead(t_data *data, int i)
 			pthread_mutex_unlock(&data->forks[k++]);
 		if (!eat)
 			print_p(data, PURPLE, &data->philo[i], "died\n");
+		*die = 1;
 		return (-1);
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: lduthill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 16:42:02 by lduthill          #+#    #+#             */
-/*   Updated: 2023/10/18 01:23:04 by lduthill         ###   ########.fr       */
+/*   Updated: 2023/10/30 17:23:51 by lduthill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	print_p(t_data *data, const char *col, t_philo *philo, char *str)
 		return ;
 	pthread_mutex_lock(data->print);
 	if (!(philo->is_dead && !philo->culpable))
-		printf("%04lld %s%d %s%s\n", get_time2(*data), col, \
+		printf("%lld %s%d %s%s\n", get_time2(*data), col, \
 		philo->id + 1, str, RESET);
 	pthread_mutex_unlock(data->print);
 }

@@ -6,7 +6,7 @@
 /*   By: lduthill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 16:24:45 by lduthill          #+#    #+#             */
-/*   Updated: 2023/10/18 00:43:38 by lduthill         ###   ########.fr       */
+/*   Updated: 2023/10/23 15:31:42 by lduthill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,21 @@ void	*death_routine(void *args)
 {
 	t_data	*data;
 	int		i;
+	int		die;
 
 	data = (t_data *)args;
 	while (1)
 	{
 		i = 0;
+		die = 0;
 		while (i < data->nb_philo)
 		{
-			if (is_dead(data, i) == -1)
+			if (is_dead(data, i, &die) == -1)
 				break ;
 			i++;
 		}
+		if (die)
+			break ;
 	}
 	pthread_exit(NULL);
 	return (NULL);
@@ -106,10 +110,10 @@ int	main(int ac, char **av)
 		up_usleep(&data.philo[i], !(i % 2));
 		i++;
 	}
-	pthread_detach(die);
 	i = 0;
 	while (i < data.nb_philo)
 		pthread_join(data.thread[i++], NULL);
+	pthread_join(die, NULL);
 	free_table(&data);
 	return (0);
 }
