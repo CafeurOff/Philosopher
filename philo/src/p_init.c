@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   p_init.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lduthill <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lduthill <lduthill@42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 00:06:44 by lduthill          #+#    #+#             */
-/*   Updated: 2023/11/03 23:22:07 by lduthill         ###   ########.fr       */
+/*   Updated: 2023/11/06 17:49:49 by lduthill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ void	p_init_p(t_data *data)
 	t_philo		*philo;
 	int			i;
 
-	philo = malloc(sizeof(t_philo) * data->nb_philo);
 	i = 0;
+	philo = malloc(sizeof(t_philo) * data->nb_philo);
 	if (!philo)
 		ft_error(data, "Malloc failed\n");
 	while (i < data->nb_philo)
@@ -62,6 +62,7 @@ void	p_init_p(t_data *data)
 void	p_init_philo(t_data *data, t_philo *philo, int id)
 {
 	philo->id = id;
+	philo->nb_philo = data->nb_philo;
 	philo->is_dead = 0;
 	philo->nb_eat = 0;
 	philo->last_eat = 0;
@@ -87,6 +88,7 @@ void	init_forks(t_data *data)
 		i++;
 	}
 	pthread_mutex_init(&data->dead, NULL);
+	pthread_mutex_init(&data->eat, NULL);
 	data->forks = forks;
 }
 

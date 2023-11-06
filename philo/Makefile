@@ -2,17 +2,13 @@
 
 # Compile Instructions
 NAME = 	philo
-SANIFLAG = 	-g
 FLAGS =	-g -Wall -Wextra -Werror -pthread
 
 # Directories
 SRC_FOLDER =	src/
-SRC_FILES =		main.c p_utils.c p_verifs.c p_init.c philo.c
+SRC_FILES =		main.c p_utils.c p_verifs.c p_init.c philo.c p_utils2.c
 OBJS = $(addprefix $(SRC_FOLDER), $(SRC_FILES:%.c=%.o))
 
-# Other lib includes
-LIBFT_PATH =	inc/libft/
-LIBFT_LIB =		$(LIBFT_PATH)libft.a
 # Some colors
 DEFAULT		=	\033[0;39m
 RED			=	\033[0;31m
@@ -36,20 +32,17 @@ endef
 	@gcc $(FLAGS) -c $< -o $@
 
 $(NAME): $(OBJS)
-	@make -C $(LIBFT_PATH) --no-print-directory -s
-	@gcc $(FLAGS) $(OBJS) $(LIBFT_LIB) $(PRINTF_LIB) -o $(NAME)
+	@gcc $(FLAGS) $(OBJS) -o $(NAME)
 	@echo "$(GREEN)$(NAME) compiled successfully!$(DEFAULT)"
 
 all: $(NAME)
 
 clean:
 	@rm -rf $(OBJS)
-	@make clean -C $(LIBFT_PATH) --no-print-directory -s
 	@echo "$(RED)$(NAME) cleaned successfully!$(DEFAULT)"
 
 fclean: clean
 	@rm -f $(NAME)
-	@make fclean -C $(LIBFT_PATH) --no-print-directory -s
 	@echo "$(RED)$(NAME) executable files cleaned!$(DEFAULT)"
 	@echo "$(RED)philosophers as cleaned!$(DEFAULT)"
 
@@ -57,7 +50,7 @@ re: fclean all
 	@echo "$(GREEN)$(NAME) recompiled successfully!$(DEFAULT)"
 
 norm:
-	@norminette $(SRC_FOLDER) $(LIBFT_PATH) | grep -v Norme -B1 || true
+	@norminette $(SRC_FOLDER) | grep -v Norme -B1 || true
 
 .PHONY: all clean fclean re norm
 

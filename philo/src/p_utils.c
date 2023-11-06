@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   p_utils.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lduthill <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lduthill <lduthill@42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 16:42:02 by lduthill          #+#    #+#             */
-/*   Updated: 2023/11/03 23:03:20 by lduthill         ###   ########.fr       */
+/*   Updated: 2023/11/06 17:12:24 by lduthill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,9 @@ long long	get_time(void)
 **	Get time in milliseconds since the start of the program
 */
 
-long long	get_time2(t_data data)
+long long	get_time2(t_data *data)
 {
-	return (get_time() - data.start_time);
+	return (get_time() - data->start_time);
 }
 
 /*
@@ -75,11 +75,16 @@ long long	get_time2(t_data data)
 
 void	print_p(t_data *data, const char *col, t_philo *philo, char *str)
 {
+	pthread_mutex_lock(&data->dead);
 	if (philo->is_dead)
+	{
+		pthread_mutex_unlock(&data->dead);
 		return ;
+	}
 	pthread_mutex_lock(data->print);
 	if (!(philo->is_dead))
-		printf("%lld %s%d %s%s\n", get_time2(*data), col, \
+		printf("[%lld]	%s%d	%s%s\n", get_time2(data), col, \
 		philo->id + 1, str, RESET);
 	pthread_mutex_unlock(data->print);
+	pthread_mutex_unlock(&data->dead);
 }

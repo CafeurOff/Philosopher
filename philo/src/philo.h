@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lduthill <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lduthill <lduthill@42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 16:24:58 by lduthill          #+#    #+#             */
-/*   Updated: 2023/11/03 23:07:29 by lduthill         ###   ########.fr       */
+/*   Updated: 2023/11/06 18:13:34 by lduthill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include <stdlib.h>
 # include <sys/time.h>
 # include <string.h>
-# include "../inc/libft/libft.h"
 
 # define RED "\033[0;31m"
 # define GREEN "\033[0;32m"
@@ -32,6 +31,7 @@
 typedef struct s_philo
 {
 	int					id;
+	int					nb_philo;
 	int					is_dead;
 	int					nb_eat;
 	long long			last_eat;
@@ -51,6 +51,7 @@ typedef struct s_data
 	pthread_mutex_t		*forks;
 	pthread_mutex_t		*print;
 	pthread_mutex_t		dead;
+	pthread_mutex_t		eat;
 }		t_data;
 
 /* Main */
@@ -69,7 +70,7 @@ void		free_table(t_data *data);
 void		ft_error(t_data *data, char *str);
 void		print_p(t_data *data, const char *col, t_philo *philo, char *str);
 long long	get_time(void);
-long long	get_time2(t_data data);
+long long	get_time2(t_data *data);
 /* Verifs */
 void		p_verif_args(t_data *philo, int ac, char **av);
 void		p_args_is_int(t_data *philo, int ac, char **av);
@@ -79,6 +80,8 @@ int			p_loop(t_data *data, t_philo *philo, int fork1, int fork2);
 void		eat_fork(t_data *data, t_philo *philo);
 int			is_full(t_data *data);
 int			is_dead(t_data *data, int i);
-int		philo_is_dead(t_philo *philo, int i, int fork1, int fork2);
-
+int			philo_is_dead(t_philo *philo, int i, int fork1, int fork2);
+/* Utils2 */
+void		last_eat(t_data *data, t_philo *philo);
+int			ft_atoi(char *str);
 #endif

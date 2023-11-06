@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lduthill <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lduthill <lduthill@42perpignan.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 16:24:45 by lduthill          #+#    #+#             */
-/*   Updated: 2023/11/03 23:19:02 by lduthill         ###   ########.fr       */
+/*   Updated: 2023/11/06 18:07:25 by lduthill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,12 @@ void	*philo_routine(void *args)
 	fork2 = fork1 + 1;
 	if (fork2 >= data->nb_philo)
 		fork2 = 0;
+	if (philo->nb_philo == 1)
+	{
+		print_p(data, RED, philo, "has taken a fork\n");
+		up_usleep(philo, philo->data->time_to_die);
+		return (NULL);
+	}
 	while (1)
 	{
 		if (p_loop(data, philo, fork1, fork2) == -1)
@@ -116,11 +122,9 @@ int	main(int ac, char **av)
 	return (0);
 }
 
-
 /*
 **	Here i have recoded usleep for get a large usleep
 */
-
 
 void	up_usleep(t_philo *philo, long long time)
 {
