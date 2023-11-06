@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   p_verifs.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lduthill <lduthill@42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: lduthill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 17:13:34 by lduthill          #+#    #+#             */
-/*   Updated: 2023/11/06 18:13:43 by lduthill         ###   ########.fr       */
+/*   Updated: 2023/11/06 22:01:52 by lduthill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	p_args_to_int(t_data *data, int ac, char **av)
 	while (i < ac)
 	{
 		j = ft_atoi(av[i]);
-		if (j < 0)
+		if (j <= 0)
 			return (ft_error(data, "Arguments must be positive\n"));
 		if (i == 1)
 		{

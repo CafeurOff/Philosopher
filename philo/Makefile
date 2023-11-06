@@ -53,4 +53,3 @@ norm:
 	@norminette $(SRC_FOLDER) | grep -v Norme -B1 || true
 
 .PHONY: all clean fclean re norm
-

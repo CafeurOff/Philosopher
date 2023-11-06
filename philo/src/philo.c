@@ -34,9 +34,7 @@ int	p_loop(t_data *data, t_philo *philo, int fork1, int fork2)
 	last_eat(data, philo);
 	eat_fork(data, philo);
 	up_usleep(philo, data->time_to_eat);
-	mutrex_lock
-	philo->nb_eat++;
-	mutrex_unlock
+	eating(data, philo);
 	if (philo_is_dead(philo, 2, fork1, fork2))
 		return (-1);
 	pthread_mutex_unlock(&data->forks[fork1]);
@@ -92,14 +90,14 @@ int	is_full(t_data *data)
 	count = 0;
 	if (data->nb_eat < 0)
 		return (0);
+	pthread_mutex_lock(&data->eating);
 	while (i < data->nb_philo)
 	{
-		mutrex_lock
 		if (data->philo[i].nb_eat >= data->nb_eat)
 			count++;
-		mutex_unlock
 		i++;
 	}
+	pthread_mutex_unlock(&data->eating);
 	return (count == data->nb_philo);
 }
 

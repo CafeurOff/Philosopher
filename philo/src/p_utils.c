@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   p_utils.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lduthill <lduthill@42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: lduthill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 16:42:02 by lduthill          #+#    #+#             */
-/*   Updated: 2023/11/06 17:12:24 by lduthill         ###   ########.fr       */
+/*   Updated: 2023/11/06 22:00:54 by lduthill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	free_table(t_data *data)
 void	ft_error(t_data *data, char *str)
 {
 	free_table(data);
-	printf("Error\n %s\n", str);
+	printf("Error\n %s", str);
 	exit(1);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   p_init.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lduthill <lduthill@42perpignan.fr>         +#+  +:+       +#+        */
+/*   By: lduthill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 00:06:44 by lduthill          #+#    #+#             */
-/*   Updated: 2023/11/06 17:49:49 by lduthill         ###   ########.fr       */
+/*   Updated: 2023/11/06 21:26:16 by lduthill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void	init_forks(t_data *data)
 	}
 	pthread_mutex_init(&data->dead, NULL);
 	pthread_mutex_init(&data->eat, NULL);
+	pthread_mutex_init(&data->eating, NULL);
 	data->forks = forks;
 }
 
